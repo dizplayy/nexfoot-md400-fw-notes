@@ -59,6 +59,9 @@ repository.** Only documentation, scripts and offsets are published.
    Devices with a vendor-specific interface (class `0xFF`) never mount, and some
    composite devices (audio + several MIDI interfaces) are not mounted either
    (`docs/06-usb-host.md`).
+6. A USB-only target can still be driven through the device port with a PC or SBC
+   acting as the USB host and routing the stream; see *Working setup* in
+   `docs/06-usb-host.md`.
 
 ## Legal
 

@@ -73,3 +73,41 @@ A device can be perfectly functional on a PC and still not work here: the PC use
 the vendor driver, while this firmware implements only standard USB-MIDI host.
 For a target with a vendor-specific USB interface, no MIDI-level patch can help;
 the vendor protocol would have to be implemented.
+
+## Working setup: route through a host
+
+The host port is not the only way out of the device. The **device** port to a PC
+carries MIDI too, so the pedal can already control a downstream device with a
+computer in the middle, without any firmware change:
+
+```
+pedal (USB device)  ->  PC / SBC (USB host)  ->  target (USB device)
+```
+
+This is not a workaround specific to this pedal: it is how USB-MIDI foot
+controllers are connected to USB-only amplifiers in general. Two USB devices
+cannot talk to each other; a host has to sit between them and route the stream.
+A USB **hub** is not a host and does not help.
+
+A Raspberry Pi class board is enough. A user report on r/BossKatana describes
+routing a Line6 FBV3 to a Katana 50 Mk2 with a **Raspberry Pi 1B (512 MB)**
+running a small Python script (`podtana`), i.e. plain Linux `usbmidi` on the
+cheapest possible host. The same thread states the requirement explicitly:
+"you need to connect both to a USB host, i.e. a PC or similar (a Raspberry Pi or
+other microcomputer)". See
+<https://www.reddit.com/r/BossKatana/comments/msd597/controlling_the_katana_with_a_midi_controller/>.
+
+Practical notes for this pedal:
+
+* Route to the port the target actually listens on. On a Katana 50 Mk2 that is
+  `KATANA DAW CTRL`; a Program Change sent to `KATANA` or `KATANA CTRL` does
+  nothing. Select the destination port explicitly in the router.
+* The pedal's extra MIDI input port seen by the PC is a **local mirror** (see
+  above); do not route it back, or messages loop.
+* No latency penalty worth mentioning: routing adds one USB frame, not audible.
+* This path needs no UBOOT, no patching and no recovery risk.
+
+If a standalone (pedal -> target, no computer) link is required, the only option
+is a target that exposes a **single, class-compliant USB-MIDI interface** and is
+mounted by this host stack; otherwise the host probe described above has to be
+extended in firmware.
