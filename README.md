@@ -1,8 +1,11 @@
 # JieLi AC632N / BD19 firmware notes
 
-Reverse-engineering notes and tools for an **AC632N (BD19) based BLE/USB MIDI foot
-controller**. Everything here was derived from a device owned by the author, for
-interoperability and repair purposes.
+Reverse-engineering notes and tools for the **Nexfoot MIDI foot controller**
+(MD400 platform, JieLi **AC632N / BD19** core). Everything here was derived from
+a device owned by the author, for interoperability and repair purposes.
+
+The device is configured with the vendor software **Livtra** (ToneCommand), which
+speaks the `a2` API documented in `docs/07-a2-api.md`.
 
 **No firmware images or other copyrighted binaries are distributed in this
 repository.** Only documentation, scripts and offsets are published.
@@ -17,6 +20,7 @@ repository.** Only documentation, scripts and offsets are published.
 | `docs/04-midi-queues.md` | MIDI router architecture (ring buffers per port/direction) |
 | `docs/05-ghidra-q32s.md` | Ghidra + `ghidra-jieli` workflow, q32s encodings, in-place patching |
 | `docs/06-usb-host.md` | USB host behaviour: which devices mount and which do not |
+| `docs/07-a2-api.md` | Companion API (`a2`) opcodes, BLE services, assignment fields |
 | `tools/` | decrypt/encrypt, image packer, SCSI flasher, Ghidra scripts |
 
 ## Platform summary
@@ -30,6 +34,15 @@ repository.** Only documentation, scripts and offsets are published.
 * The ROM exposes a **USB mass-storage UBOOT** ("BD19 UBOOT") that accepts raw
   SCSI CDBs. It can read, erase and program the internal flash, and can upload a
   small loader into RAM and jump to it.
+
+## Target device
+
+* **Nexfoot** MIDI foot controller, **MD400** platform, JieLi AC632N (BD19) core.
+* USB **device** port to a PC (USB-MIDI) and USB **host** port (USB-A) for a MIDI
+  device.
+* BLE: standard BLE-MIDI service plus a proprietary `a2` service.
+* Host-side configuration with **Livtra** (ToneCommand), which uses the `a2` API
+  described in `docs/07-a2-api.md`.
 
 ## Key findings
 

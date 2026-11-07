@@ -34,6 +34,19 @@ to).
   system exposes the MIDI interfaces as standard class-compliant ports. The
   probe appears to expect a simpler topology.
 
+## Compatibility observed (Nexfoot host port)
+
+| Target | USB descriptor | Result on the Nexfoot host |
+|---|---|---|
+| Boss Katana 50 **Mk1** | vendor-specific: `Class_FF / SubClass_FF / Prot_00`, vendor driver | never mounts (no class 1/3 interface) |
+| Boss Katana 50 **Mk2** | class-compliant USB-MIDI, 3 ports (`KATANA`, `KATANA DAW CTRL`, `KATANA CTRL`) | not mounted (composite audio + 3 MIDI) |
+
+On a PC the Mk2 behaves normally: the identity request is answered on each port
+(each reply returns on its own port) and a Program Change changes the amp **only
+on `KATANA DAW CTRL`**. The same messages sent by the Nexfoot do not reach the amp
+and the identity request sent by the Nexfoot is not answered, i.e. the device is
+not delivering at all.
+
 ## Diagnostics methodology
 
 Two traps to avoid when debugging this path:
