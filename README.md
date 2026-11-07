@@ -68,6 +68,15 @@ repository.** Only documentation, scripts and offsets are published.
 * No warranty. Flashing can brick a device; recovery is described in
   `docs/03-flashing.md` but is not guaranteed.
 
+## Support this work
+
+This research took a lot of time (and some money: hardware, bricks, recovery
+cycles). If it saved you some, you can buy me a coffee:
+
+[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/ppal)
+
+**https://paypal.me/ppal**
+
 ## License
 
 MIT for the code, CC BY 4.0 for the documentation. See `LICENSE`.
